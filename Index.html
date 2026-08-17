@@ -121,31 +121,36 @@
     }
   </style>
 </head>
-<body>  <div class="banner">SELAMAT DATANG</div>  <div class="container">
+<body>  
+  <div class="banner">SELAMAT DATANG</div>  
+  <div class="container">
     <div class="image-wrapper">
       <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1pwO52hgZ0o0ZPrJg2CL3NcrD0tgYCMQuc5JIhBrNMiASdNSFnmHCVfr6YeaJsRxfQx-Frn-CcZYqz2gMwh_T-4Gohn7MFrJrLrgstuwHRBNgBtT-bkHRGswLHD3KfDAkZt_uHQoXEoeSXErvkbx1zRafsZtJ8IcBVVhk81jKuAVsX2WyP0HGzHbbv7A/s736/cb74b4cf255d77188a95fd04d1e76d7c.jpg" alt="Gambar Kawaii">
-    </div><h1>Download Video</h1>
+    </div>
+    
+    <h1>Download Video</h1>
 
-<input id="url" type="text" placeholder="Tempelkan link video di sini…" />
-<br>
-<button onclick="downloadVideo()">Mulai Download</button>
+    <input id="url" type="text" placeholder="Tempelkan link video di sini…" />
+    <br>
+    <button onclick="downloadVideo()">Mulai Download</button>
 
-<div id="loading">
-  <div class="spinner"></div>
-  <p>Sebentar yaa, lagi diproses…</p>
-</div>
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Sebentar yaa, lagi diproses…</p>
+    </div>
 
-<div id="resolution-selector">
-  <div class="spinner"></div>
-  <h3>Memilih Resolusi HD...</h3>
-  <div id="res-buttons"></div>
-</div>
+    <div id="resolution-selector">
+      <div class="spinner"></div>
+      <h3>Memilih Resolusi HD...</h3>
+      <div id="res-buttons"></div>
+    </div>
 
-<div id="error-message">MAAF RESOLUSI INI TIDAK TERSEDIA, COBA RESOLUSI LAIN</div>
+    <div id="error-message">MAAF RESOLUSI INI TIDAK TERSEDIA, COBA RESOLUSI LAIN</div>
 
-<p class="note">Support YouTube, TikTok, Instagram, Facebook & banyak lagi.</p>
+    <p class="note">Support YouTube, TikTok, Instagram, Facebook & banyak lagi.</p>
+  </div>  
 
-  </div>  <script>
+  <script>
     let videoLinks = [];
     async function downloadVideo() {
       const url = document.getElementById("url").value.trim();
@@ -153,22 +158,22 @@
       const resSelector = document.getElementById("resolution-selector");
       const resButtons = document.getElementById("res-buttons");
       const errorMsg = document.getElementById("error-message");
+      
       if (!url) return alert("Masukkan URL video dulu yaa!");
+      
       loading.style.display = "block";
       resSelector.style.display = "none";
       resButtons.innerHTML = "";
       errorMsg.style.display = "none";
-      const endpoint = "https://social-media-video-downloader.p.rapidapi.com/smvd/get/all?url=" + encodeURIComponent(url);
+
+      // Mengarah ke Serverless Function di Vercel
+      const endpoint = "/api/download?url=" + encodeURIComponent(url);
+
       try {
-        const resp = await fetch(endpoint, {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Key": "837393c934msh8747bcb37b91d8ep1ba687jsn4ed59f6c1497",
-            "X-RapidAPI-Host": "social-media-video-downloader.p.rapidapi.com"
-          }
-        });
+        const resp = await fetch(endpoint);
         const data = await resp.json();
         loading.style.display = "none";
+
         if (data && Array.isArray(data.links) && data.links.length) {
           videoLinks = data.links;
           resSelector.style.display = "block";
@@ -209,5 +214,6 @@
         alert("Terjadi kesalahan. Coba lagi nanti.");
       }
     }
-  </script></body>
+  </script>
+</body>
 </html>
