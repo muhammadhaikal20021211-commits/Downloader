@@ -1,1 +1,213 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Downloader Kawaii</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      background-image:
+        linear-gradient(0deg, #e0e0e0 1px, transparent 1px),
+        linear-gradient(90deg, #e0e0e0 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .banner {
+      width: 260px; height: 60px;
+      background: #f5f5f5; border: 2px solid #d3d3d3;
+      border-radius: 25px; margin: 50px auto 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; color: #555; font-size: 1.3em;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      animation: float 3s ease-in-out infinite alternate;
+    }
+    @keyframes float {
+      0% { transform: translateY(-5px); }
+      100% { transform: translateY(5px); }
+    }
+    .container {
+      max-width: 600px; margin: 30px auto;
+      background: #fff; padding: 30px; border-radius: 25px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+      text-align: center; border: 2px dashed #ccc;
+    }
+    .image-wrapper img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      margin: 20px auto;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: block;
+    }
+    h1 {
+      color: #666; margin-bottom: 20px; font-size: 2.2em;
+    }
+    input[type="text"] {
+      width: 80%; padding: 14px; border: 2px solid #ccc;
+      border-radius: 18px; margin-bottom: 20px; font-size: 1em;
+      outline: none;
+    }
+    button {
+      background: #d1c4e9; color: #4a148c; border: none;
+      padding: 12px 30px; border-radius: 25px; font-size: 1em;
+      cursor: pointer; transition: 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 5px;
+    }
+    button:hover { background: #b39ddb; transform: scale(1.05); }
+    #loading {
+      display: none; margin-top: 20px; font-size: 0.9em; color: #999;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3; border-top: 4px solid #4fc3f7;
+      border-radius: 50%; width: 30px; height: 30px;
+      animation: spin 1s linear infinite; margin: 10px auto;
+    }
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #resolution-selector {
+      display: none;
+      margin-top: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    #error-message {
+      display: none;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 500px;
+      background: #f5f5f5;
+      border: 2px dashed #ccc;
+      border-radius: 25px;
+      color: #555;
+      font-size: 1.1em;
+      animation: typing 3s steps(40, end) 1;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    .res-button {
+      background: #81d4fa;
+      color: #01579b;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    .res-button:hover {
+      background: #4fc3f7;
+      transform: scale(1.05);
+    }
+    .active-button {
+      background: #ccc !important;
+      color: #555 !important;
+      transform: scale(0.98);
+    }
+    p.note {
+      font-size: 0.9em; color: #aaa; margin-top: 20px;
+    }
+  </style>
+</head>
+<body>  <div class="banner">SELAMAT DATANG</div>  <div class="container">
+    <div class="image-wrapper">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1pwO52hgZ0o0ZPrJg2CL3NcrD0tgYCMQuc5JIhBrNMiASdNSFnmHCVfr6YeaJsRxfQx-Frn-CcZYqz2gMwh_T-4Gohn7MFrJrLrgstuwHRBNgBtT-bkHRGswLHD3KfDAkZt_uHQoXEoeSXErvkbx1zRafsZtJ8IcBVVhk81jKuAVsX2WyP0HGzHbbv7A/s736/cb74b4cf255d77188a95fd04d1e76d7c.jpg" alt="Gambar Kawaii">
+    </div><h1>Download Video</h1>
 
+<input id="url" type="text" placeholder="Tempelkan link video di sini…" />
+<br>
+<button onclick="downloadVideo()">Mulai Download</button>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Sebentar yaa, lagi diproses…</p>
+</div>
+
+<div id="resolution-selector">
+  <div class="spinner"></div>
+  <h3>Memilih Resolusi HD...</h3>
+  <div id="res-buttons"></div>
+</div>
+
+<div id="error-message">MAAF RESOLUSI INI TIDAK TERSEDIA, COBA RESOLUSI LAIN</div>
+
+<p class="note">Support YouTube, TikTok, Instagram, Facebook & banyak lagi.</p>
+
+  </div>  <script>
+    let videoLinks = [];
+    async function downloadVideo() {
+      const url = document.getElementById("url").value.trim();
+      const loading = document.getElementById("loading");
+      const resSelector = document.getElementById("resolution-selector");
+      const resButtons = document.getElementById("res-buttons");
+      const errorMsg = document.getElementById("error-message");
+      if (!url) return alert("Masukkan URL video dulu yaa!");
+      loading.style.display = "block";
+      resSelector.style.display = "none";
+      resButtons.innerHTML = "";
+      errorMsg.style.display = "none";
+      const endpoint = "https://social-media-video-downloader.p.rapidapi.com/smvd/get/all?url=" + encodeURIComponent(url);
+      try {
+        const resp = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key": "837393c934msh8747bcb37b91d8ep1ba687jsn4ed59f6c1497",
+            "X-RapidAPI-Host": "social-media-video-downloader.p.rapidapi.com"
+          }
+        });
+        const data = await resp.json();
+        loading.style.display = "none";
+        if (data && Array.isArray(data.links) && data.links.length) {
+          videoLinks = data.links;
+          resSelector.style.display = "block";
+          videoLinks.forEach(link => {
+            const btn = document.createElement("button");
+            btn.className = "res-button";
+            let label = "";
+            if (link.type && link.type.toLowerCase().includes("audio")) {
+              label = "Audio";
+            } else {
+              let quality = link.quality || "";
+              quality = quality.replace(/video_|render_|_\d+/gi, "");
+              label = (link.format || "MP4") + " " + quality.trim();
+            }
+            btn.innerText = label.trim();
+            btn.onclick = () => {
+              document.querySelectorAll(".res-button").forEach(b => b.classList.remove("active-button"));
+              btn.classList.add("active-button");
+              if (link.link) {
+                const a = document.createElement("a");
+                a.href = link.link;
+                a.download = "";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+              } else {
+                errorMsg.style.display = "block";
+              }
+            };
+            resButtons.appendChild(btn);
+          });
+        } else {
+          alert("Gagal menemukan link download.");
+        }
+      } catch (e) {
+        console.error(e);
+        loading.style.display = "none";
+        alert("Terjadi kesalahan. Coba lagi nanti.");
+      }
+    }
+  </script></body>
+</html>
